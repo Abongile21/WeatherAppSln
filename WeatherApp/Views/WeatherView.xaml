@@ -2,28 +2,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:WeatherApp.ViewModels"
              x:Class="WeatherApp.Views.WeatherView"
-             Title="Weather">
+             Shell.BackgroundColor="#7BC7DD"
+             Shell.TitleColor="Navy"
+             Title="Weather App">
 
     <ContentPage.BindingContext>
         <viewModels:WeatherViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="20" Spacing="15">
+    <StackLayout Padding="10" Spacing="15">
         <Entry Placeholder="Enter city name"
-               Text="{Binding City, Mode=TwoWay}"
+               Text="{Binding City}"
                ReturnType="Go"
                Completed="OnSearchCompleted" />
 
         <Button Text="Get Weather"
-                Command="{Binding SearchCommand}" />
+                Command="{Binding SearchCommand}" BackgroundColor="DarkBlue" FontAttributes="Bold"/>
 
-        <Button Text="Use Current Location"
-                Command="{Binding CurrentLocationCommand}" />
+        <Border BackgroundColor="#7BC7DD" Padding="10">
 
-        <Label Text="{Binding Weather.name}" FontSize="24" HorizontalOptions="Center" />
-        <Label Text="{Binding Weather.main.temp, StringFormat='Temperature: {0} °C'}" />
-        <Label Text="{Binding Weather.weather[0].description}" />
-        <Label Text="{Binding Weather.wind.speed, StringFormat='Wind: {0} m/s'}" />
-        <Label Text="{Binding Weather.main.humidity, StringFormat='Humidity: {0}%'}" />
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+                
+            </Border.StrokeShape>
+
+            <VerticalStackLayout>
+                <Label Text="{Binding Weather.name}" FontSize="24" HorizontalOptions="Center" />
+                <Label Text="{Binding Weather.main.temp, StringFormat='Temperature: {0} °C'}" />
+                <Label Text="{Binding Weather.weather[0].description}" />
+                <Label Text="{Binding Weather.wind.speed, StringFormat='Wind: {0} m/s'}" />
+                <Label Text="{Binding Weather.main.humidity, StringFormat='Humidity: {0}%'}" />
+            </VerticalStackLayout>
+
+        </Border>
+
     </StackLayout>
 </ContentPage>

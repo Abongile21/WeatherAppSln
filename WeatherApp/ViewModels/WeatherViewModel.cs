@@ -33,7 +33,7 @@ namespace WeatherApp.ViewModels
         public WeatherViewModel()
         {
             SearchCommand = new Command(async () => await LoadWeatherByCityAsync(City));
-            CurrentLocationCommand = new Command(async () => await LoadWeatherByCurrentLocationAsync());
+            LoadWeatherByCurrentLocationAsync();
         }
 
         public async Task LoadWeatherByCityAsync(string cityName)
