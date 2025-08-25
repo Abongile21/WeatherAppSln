@@ -23,7 +23,7 @@ The app uses the **OpenWeatherMap API** and shows city name, temperature, weathe
 
 ## Screenshots
 
-*(Add screenshots here)*
+![Alt text](Screenshot 2025-08-25 110621.png)
 
 ---
 
