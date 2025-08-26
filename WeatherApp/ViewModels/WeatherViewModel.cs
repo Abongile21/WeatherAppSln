@@ -48,7 +48,7 @@ namespace WeatherApp.ViewModels
         {
             try
             {
-                var location = await Geolocation.Default.GetLastKnownLocationAsync() ?? await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium));
+                var location = await Geolocation.Default.GetLocationAsync() ?? await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium));
                 if (location != null)
                 {
                     Weather = await _weatherService.GetWeatherByCoordinatesAsync(location.Latitude, location.Longitude);
