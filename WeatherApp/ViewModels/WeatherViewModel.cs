@@ -33,7 +33,9 @@ namespace WeatherApp.ViewModels
         public WeatherViewModel()
         {
             SearchCommand = new Command(async () => await LoadWeatherByCityAsync(City));
-            LoadWeatherByCurrentLocationAsync();
+            CurrentLocationCommand = new Command(async () => await LoadWeatherByCurrentLocationAsync());
+
+            
         }
 
         public async Task LoadWeatherByCityAsync(string cityName)
@@ -46,10 +48,7 @@ namespace WeatherApp.ViewModels
         {
             try
             {
-                var location = await Geolocation.Default.GetLastKnownLocationAsync();
-                if (location == null)
-                    location = await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium));
-
+                var location = await Geolocation.Default.GetLastKnownLocationAsync() ?? await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium));
                 if (location != null)
                 {
                     Weather = await _weatherService.GetWeatherByCoordinatesAsync(location.Latitude, location.Longitude);

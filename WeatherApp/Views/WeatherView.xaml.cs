@@ -12,6 +12,7 @@ public partial class WeatherView : ContentPage
         InitializeComponent();
         _viewModel = new WeatherViewModel();
         BindingContext = _viewModel;
+        _ = _viewModel.CurrentLocationCommand;
     }
 
     private void OnSearchCompleted(object sender, EventArgs e)
@@ -19,4 +20,15 @@ public partial class WeatherView : ContentPage
         if (!string.IsNullOrWhiteSpace(_viewModel.City) && _viewModel.SearchCommand.CanExecute(null))
             _viewModel.SearchCommand.Execute(null);
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is WeatherViewModel vm && vm.CurrentLocationCommand.CanExecute(null))
+        {
+            vm.CurrentLocationCommand.Execute(null);
+        }
+    }
+
 }
