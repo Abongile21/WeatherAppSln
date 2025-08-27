@@ -2,39 +2,93 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:WeatherApp.ViewModels"
              x:Class="WeatherApp.Views.WeatherView"
-             Shell.BackgroundColor="#7BC7DD"
-             Shell.TitleColor="Navy"
+             BackgroundColor="Black"
              Title="Weather App">
 
     <ContentPage.BindingContext>
         <viewModels:WeatherViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="10" Spacing="15">
-        <Entry Placeholder="Enter city name"
-               Text="{Binding City}"
-               ReturnType="Go"
-               Completed="OnSearchCompleted" />
+    <Grid Padding="20" ColumnSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Button Text="Get Weather"
-                Command="{Binding SearchCommand}" BackgroundColor="DarkBlue" FontAttributes="Bold"/>
+        <HorizontalStackLayout Grid.Row="0" Spacing="12">
+            <Entry Placeholder="Enter city name"
+                   Text="{Binding City}"
+                   ReturnType="Go"
+                   Completed="OnSearchCompleted"
+                   BackgroundColor="#20FFFFFF" 
+                TextColor="White"
+                   PlaceholderColor="LightGray"
+                   HeightRequest="45"
+                   WidthRequest="200"/>
 
-        <Border BackgroundColor="#7BC7DD" Padding="10">
-
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10"/>
                 
-            </Border.StrokeShape>
+        <Button Text="Search"
+            Command="{Binding SearchCommand}"
+            BackgroundColor="#20FFFFFF"
+            TextColor="White"
+            CornerRadius="12"
+             HorizontalOptions="End"/>
+    
+        </HorizontalStackLayout>
+         
+        <Button Grid.Row="1"
+             Text="My Location"
+             Margin="0,10,0,0"
+             Command="{Binding CurrentLocationCommand}"
+             BackgroundColor="#20FFFFFF"
+             TextColor="White"
+             CornerRadius="12"/>
 
-            <VerticalStackLayout>
-                <Label Text="{Binding Weather.name}" FontSize="24" HorizontalOptions="Center" />
-                <Label Text="{Binding Weather.main.temp, StringFormat='Temperature: {0} °C'}" />
-                <Label Text="{Binding Weather.weather[0].description}" />
-                <Label Text="{Binding Weather.wind.speed, StringFormat='Wind: {0} m/s'}" />
-                <Label Text="{Binding Weather.main.humidity, StringFormat='Humidity: {0}%'}" />
+        <Border Grid.Row="2"
+                Margin="0,10,0,0"
+                BackgroundColor="#20FFFFFF" 
+            Stroke="#20FFFFFF"
+                StrokeThickness="1"
+                Padding="25"
+                Shadow="10"
+                StrokeShape="RoundRectangle 30">
+
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+
+                <Label Text="{Binding City}"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+
+                <Image Source="{Binding IconUrl}"
+                       WidthRequest="80"
+                       HeightRequest="80"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="{Binding Temperature}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="{Binding Condition}"
+                       FontSize="14"
+                       TextColor="LightGray"
+                       HorizontalOptions="Center"/>
+
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="{Binding Weather.wind.speed, StringFormat='💨wind: {0}m/s'}"
+                           FontSize="12"
+                           TextColor="White"/>
+                    <Label Text="{Binding Weather.main.humidity, StringFormat='💧humid: {0}%'}"
+                           FontSize="12"
+                           TextColor="White"/>
+                  
+
+                </HorizontalStackLayout>
             </VerticalStackLayout>
-
         </Border>
-
-    </StackLayout>
+    </Grid>
 </ContentPage>

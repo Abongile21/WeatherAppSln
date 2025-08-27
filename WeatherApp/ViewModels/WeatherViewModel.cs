@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Telephony.Euicc;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices.Sensors;
 using WeatherApp.Models;
@@ -17,7 +18,14 @@ namespace WeatherApp.ViewModels
         public WeatherInformation Weather
         {
             get => _weather;
-            set { _weather = value; OnPropertyChanged(); }
+            set
+            {
+                _weather = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Temperature));
+                OnPropertyChanged(nameof(Condition));
+                OnPropertyChanged(nameof(IconUrl));
+            }
         }
 
         private string _city;
@@ -27,6 +35,10 @@ namespace WeatherApp.ViewModels
             set { _city = value; OnPropertyChanged(); }
         }
 
+        public string Temperature => Weather?.main?.temp != null ? $"{Weather.main.temp:F1}°C" : string.Empty;
+        public string Condition => Weather?.PrimaryWeather?.description ?? string.Empty;
+        public string IconUrl => Weather?.PrimaryWeather.icon ?? string.Empty;
+
         public ICommand SearchCommand { get; }
         public ICommand CurrentLocationCommand { get; }
 
@@ -34,8 +46,6 @@ namespace WeatherApp.ViewModels
         {
             SearchCommand = new Command(async () => await LoadWeatherByCityAsync(City));
             CurrentLocationCommand = new Command(async () => await LoadWeatherByCurrentLocationAsync());
-
-            
         }
 
         public async Task LoadWeatherByCityAsync(string cityName)
@@ -48,15 +58,19 @@ namespace WeatherApp.ViewModels
         {
             try
             {
-                var location = await Geolocation.Default.GetLocationAsync() ?? await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium));
+                var location = await Geolocation.Default.GetLocationAsync()
+                               ?? await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium));
+
                 if (location != null)
                 {
                     Weather = await _weatherService.GetWeatherByCoordinatesAsync(location.Latitude, location.Longitude);
-                    City = Weather.name;
+                    City = Weather?.name;
                 }
             }
             catch
             {
+
+                await Shell.Current.DisplayAlert("Location error","Can't get location","ok");
             }
         }
 

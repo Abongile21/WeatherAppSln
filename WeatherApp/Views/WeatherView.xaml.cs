@@ -27,7 +27,8 @@ public partial class WeatherView : ContentPage
 
         if (BindingContext is WeatherViewModel vm && vm.CurrentLocationCommand.CanExecute(null))
         {
-            vm.CurrentLocationCommand.Execute(null);
+            vm.CurrentLocationCommand
+                .Execute(null);
         }
     }
 
