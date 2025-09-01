@@ -30,7 +30,7 @@ The app uses the **OpenWeatherMap API** and shows city name, temperature, weathe
 
 ## Requirements
 
-- .NET 7 / .NET MAUI  
+- .NET  / .NET MAUI  
 - Visual Studio 2022 or 2023 with MAUI workload installed  
 - OpenWeatherMap API key ([Sign up here](https://openweathermap.org/api))  
 
